@@ -53,6 +53,7 @@ public:
 class neuron {
   rfa m_w{};
   rfa m_b{};
+  float m_cost{};
 
   static float sigm(float a) {
     float ea = expf(a);
@@ -67,17 +68,17 @@ public:
     }
     return sigm(a);
   }
-};
 
-float cost(const neuron &n, const test_suit &suit) {
-  float cost = 0;
-  for (const auto &set : suit.data) {
-    float f = n.fwd(set.in);
-    float err = f - set.out[0];
-    cost += err * err;
+  float update_cost(const test_suit &suit) {
+    float cost = 0;
+    for (const auto &set : suit.data) {
+      float f = fwd(set.in);
+      float err = f - set.out[0];
+      cost += err * err;
+    }
+    return m_cost = cost / 4.0f;
   }
-  return cost / 4.0f;
-}
+};
 
 int main() {
   constexpr const float eps = 1e-1;
@@ -85,8 +86,8 @@ int main() {
 
   srand(time(0));
 
-  neuron n;
-  float c = cost(n, or_data);
-
-  printf("%f\n", c);
+  neuron ns[10];
+  for (auto &n : ns) {
+    printf("%f\n", n.update_cost(or_data));
+  }
 }
