@@ -91,44 +91,46 @@ public:
   }
 };
 
+class population {
+  neuron m_ns[10]{};
+
+public:
+  void generation() {
+    qsort(m_ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
+      auto na = static_cast<const neuron *>(a);
+      auto nb = static_cast<const neuron *>(b);
+      return na->cost() - nb->cost() > 0 ? 1 : -1;
+    });
+
+    neuron parents[2];
+    for (auto i = 0; i < 2; i++) {
+      parents[i] = m_ns[i];
+    }
+    for (auto &n : m_ns) {
+      n = neuron{parents};
+    }
+  }
+
+  float fitness(const test_suit &suit) {
+    float f = 0;
+    for (auto &n : m_ns) {
+      n.update_cost(suit);
+      f += n.cost();
+    }
+    return f / 10.0f;
+  }
+};
+
 int main() {
   constexpr const float eps = 1e-1;
   constexpr const float rate = 1e-1;
 
   srand(time(0));
 
-  neuron ns[10];
-  for (auto &n : ns) {
-    n.update_cost(or_data);
+  population p{};
+  for (auto gen = 0; gen < 10; gen++) {
+    printf("%f\n", p.fitness(or_data));
+    p.generation();
   }
-  qsort(ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
-    auto na = static_cast<const neuron *>(a);
-    auto nb = static_cast<const neuron *>(b);
-    return na->cost() - nb->cost() > 0 ? 1 : -1;
-  });
-  for (const auto &n : ns) {
-    printf("%f\n", n.cost());
-  }
-  printf("-=-=-=-=-=-=-=-=-=-\n");
-
-  neuron np[2];
-  for (auto i = 0; i < 2; i++) {
-    np[i] = ns[i];
-  }
-
-  for (auto &n : ns) {
-    n = neuron{np};
-    // TODO: mutate
-  }
-  for (auto &n : ns) {
-    n.update_cost(or_data);
-  }
-  qsort(ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
-    auto na = static_cast<const neuron *>(a);
-    auto nb = static_cast<const neuron *>(b);
-    return na->cost() - nb->cost() > 0 ? 1 : -1;
-  });
-  for (const auto &n : ns) {
-    printf("%f\n", n.cost());
-  }
+  printf("%f\n", p.fitness(or_data));
 }
