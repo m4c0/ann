@@ -69,6 +69,16 @@ public:
   }
 };
 
+float cost(const neuron &n, const test_suit &suit) {
+  float cost = 0;
+  for (const auto &set : suit.data) {
+    float f = n.fwd(set.in);
+    float err = f - set.out[0];
+    cost += err * err;
+  }
+  return cost / 4.0f;
+}
+
 int main() {
   constexpr const float eps = 1e-1;
   constexpr const float rate = 1e-1;
@@ -76,14 +86,7 @@ int main() {
   srand(time(0));
 
   neuron n;
+  float c = cost(n, or_data);
 
-  float cost = 0;
-  for (const auto &set : or_data.data) {
-    float f = n.fwd(set.in);
-    float err = f - set.out[0];
-    cost += err * err;
-  }
-  cost /= 4.0f;
-
-  printf("%f\n", cost);
+  printf("%f\n", c);
 }
