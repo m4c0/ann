@@ -74,6 +74,12 @@ int main() {
 
   neuron n;
 
-  rfa in{or_data.data[0].in};
-  printf("%f\n", n.fwd(in));
+  auto set = or_data.data[0];
+
+  rfa in{set.in};
+  float f = n.fwd(in);
+  float err = f - set.out[0];
+  float cost = err * err;
+
+  printf("%f %f %f\n", set.out[0], f, cost);
 }
