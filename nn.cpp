@@ -50,6 +50,9 @@ public:
 
   auto operator[](unsigned idx) const noexcept { return m_data[idx]; }
   auto &operator[](unsigned idx) noexcept { return m_data[idx]; }
+
+  auto begin() const noexcept { return &m_data[0]; }
+  auto end() const noexcept { return &m_data[2]; }
 };
 class neuron {
   rfa m_w{};
@@ -93,6 +96,14 @@ public:
     }
     m_cost = cost / 4.0f;
   }
+
+  void dump() {
+    for (auto w : m_w)
+      printf("%f ", w);
+    for (auto b : m_b)
+      printf("%f ", b);
+    printf("\n");
+  }
 };
 
 class population {
@@ -127,22 +138,31 @@ public:
   }
 
   float eval(const rfa &in) { return m_ns[0].fwd(in); }
+
+  void survive(const test_suit &suit, unsigned max_gens) {
+    for (auto gen = 0; gen < max_gens; gen++) {
+      fitness(suit);
+      generation();
+    }
+
+    for (const auto &t : suit.data) {
+      for (auto i : t.in)
+        printf("%f ", i);
+      printf("%f %f\n", t.out[0], eval(t.in));
+    }
+    printf("f = %f\n", fitness(suit));
+    m_ns[0].dump();
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+  }
 };
 
 int main() {
+  static constexpr const auto max_gens = 1000;
+
   srand(time(0));
 
   population p{};
-  for (auto gen = 0; gen < 10; gen++) {
-    printf("%f\n", p.fitness(or_data));
-    p.generation();
-  }
-  printf("%f\n", p.fitness(or_data));
-
-  printf("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
-  for (const auto &t : or_data.data) {
-    for (auto i : t.in)
-      printf("%f ", i);
-    printf("%f %f\n", t.out[0], p.eval(t.in));
-  }
+  p.survive(or_data, max_gens);
+  p.survive(and_data, max_gens);
+  p.survive(xor_data, max_gens);
 }
