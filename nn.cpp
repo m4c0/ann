@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-float random() {
+float randf() {
   return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
 
@@ -40,7 +40,7 @@ class rfa {
 public:
   rfa() {
     for (auto &f : m_data)
-      f = random() * 10.0f - 5.0f;
+      f = randf() * 10.0f - 5.0f;
   }
   rfa(const float (&n)[2]) {
     for (auto i = 0; i < 2; i++) {
@@ -65,7 +65,7 @@ class neuron {
   }
   static float mutation() {
     constexpr const float eps = 1e-1;
-    return (random() - 0.5f) * eps;
+    return (randf() - 0.5f) * eps;
   }
 
 public:
