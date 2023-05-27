@@ -61,6 +61,8 @@ class neuron {
   }
 
 public:
+  constexpr float cost() const { return m_cost; }
+
   float fwd(const rfa &in) const {
     float a = 0;
     for (auto i = 0; i < 2; i++) {
@@ -69,14 +71,14 @@ public:
     return sigm(a);
   }
 
-  float update_cost(const test_suit &suit) {
+  void update_cost(const test_suit &suit) {
     float cost = 0;
     for (const auto &set : suit.data) {
       float f = fwd(set.in);
       float err = f - set.out[0];
       cost += err * err;
     }
-    return m_cost = cost / 4.0f;
+    m_cost = cost / 4.0f;
   }
 };
 
@@ -88,6 +90,18 @@ int main() {
 
   neuron ns[10];
   for (auto &n : ns) {
-    printf("%f\n", n.update_cost(or_data));
+    n.update_cost(or_data);
+  }
+  for (const auto &n : ns) {
+    printf("%f\n", n.cost());
+  }
+  printf("\n");
+  qsort(ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
+    auto na = static_cast<const neuron *>(a);
+    auto nb = static_cast<const neuron *>(b);
+    return na->cost() - nb->cost() > 0 ? 1 : -1;
+  });
+  for (const auto &n : ns) {
+    printf("%f\n", n.cost());
   }
 }
