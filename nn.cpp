@@ -92,15 +92,17 @@ public:
 };
 
 class population {
-  neuron m_ns[10]{};
+  static constexpr const auto pop_size = 10;
+  neuron m_ns[pop_size]{};
 
 public:
   void generation() {
-    qsort(m_ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
-      auto na = static_cast<const neuron *>(a);
-      auto nb = static_cast<const neuron *>(b);
-      return na->cost() - nb->cost() > 0 ? 1 : -1;
-    });
+    qsort(m_ns, pop_size, sizeof(neuron),
+          [](const void *a, const void *b) -> int {
+            auto na = static_cast<const neuron *>(a);
+            auto nb = static_cast<const neuron *>(b);
+            return na->cost() - nb->cost() > 0 ? 1 : -1;
+          });
 
     neuron parents[2];
     for (auto i = 0; i < 2; i++) {
@@ -117,8 +119,10 @@ public:
       n.update_cost(suit);
       f += n.cost();
     }
-    return f / 10.0f;
+    return f / static_cast<float>(pop_size);
   }
+
+  float eval(const rfa &in) { return m_ns[0].fwd(in); }
 };
 
 int main() {
@@ -133,4 +137,11 @@ int main() {
     p.generation();
   }
   printf("%f\n", p.fitness(or_data));
+
+  printf("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+  for (const auto &t : or_data.data) {
+    for (auto i : t.in)
+      printf("%f ", i);
+    printf("%f %f\n", t.out[0], p.eval(t.in));
+  }
 }
