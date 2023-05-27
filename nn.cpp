@@ -70,16 +70,20 @@ public:
 };
 
 int main() {
+  constexpr const float eps = 1e-1;
+  constexpr const float rate = 1e-1;
+
   srand(time(0));
 
   neuron n;
 
-  auto set = or_data.data[0];
+  float cost = 0;
+  for (const auto &set : or_data.data) {
+    float f = n.fwd(set.in);
+    float err = f - set.out[0];
+    cost += err * err;
+  }
+  cost /= 4.0f;
 
-  rfa in{set.in};
-  float f = n.fwd(in);
-  float err = f - set.out[0];
-  float cost = err * err;
-
-  printf("%f %f %f\n", set.out[0], f, cost);
+  printf("%f\n", cost);
 }
