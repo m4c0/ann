@@ -49,6 +49,7 @@ public:
   }
 
   auto operator[](unsigned idx) const noexcept { return m_data[idx]; }
+  auto &operator[](unsigned idx) noexcept { return m_data[idx]; }
 };
 class neuron {
   rfa m_w{};
@@ -61,6 +62,14 @@ class neuron {
   }
 
 public:
+  neuron() = default;
+  neuron(const neuron (&ps)[2]) {
+    m_w[0] = ps[rand() % 2].m_w[0];
+    m_w[1] = ps[rand() % 2].m_w[1];
+    m_b[0] = ps[rand() % 2].m_b[0];
+    m_b[1] = ps[rand() % 2].m_b[1];
+  }
+
   constexpr float cost() const { return m_cost; }
 
   float fwd(const rfa &in) const {
@@ -92,10 +101,28 @@ int main() {
   for (auto &n : ns) {
     n.update_cost(or_data);
   }
+  qsort(ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
+    auto na = static_cast<const neuron *>(a);
+    auto nb = static_cast<const neuron *>(b);
+    return na->cost() - nb->cost() > 0 ? 1 : -1;
+  });
   for (const auto &n : ns) {
     printf("%f\n", n.cost());
   }
-  printf("\n");
+  printf("-=-=-=-=-=-=-=-=-=-\n");
+
+  neuron np[2];
+  for (auto i = 0; i < 2; i++) {
+    np[i] = ns[i];
+  }
+
+  for (auto &n : ns) {
+    n = neuron{np};
+    // TODO: mutate
+  }
+  for (auto &n : ns) {
+    n.update_cost(or_data);
+  }
   qsort(ns, 10, sizeof(neuron), [](const void *a, const void *b) -> int {
     auto na = static_cast<const neuron *>(a);
     auto nb = static_cast<const neuron *>(b);
