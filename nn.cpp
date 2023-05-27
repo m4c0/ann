@@ -29,7 +29,7 @@ public:
   }
   constexpr const auto cost() const { return m_cost; }
 
-  float fwd(const rfa &in) {
+  float fwd(const rfa<2> &in) {
     // This only makes sense for layer<1>
     return m_ns[0].fwd(in);
   }
@@ -67,7 +67,7 @@ public:
     return f / static_cast<float>(pop_size);
   }
 
-  float eval(const rfa &in) { return m_ns[0].fwd(in); }
+  float eval(const rfa<2> &in) { return m_ns[0].fwd(in); }
 
   void survive(const test_suit &suit, unsigned max_gens) {
     for (auto gen = 0; gen < max_gens; gen++) {

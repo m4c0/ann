@@ -7,8 +7,8 @@ import rfa;
 import testdata;
 
 export class neuron {
-  rfa m_w{};
-  rfa m_b{};
+  rfa<2> m_w{};
+  rfa<2> m_b{};
   float m_cost{};
 
   static float sigm(float a) {
@@ -31,7 +31,7 @@ public:
 
   constexpr float cost() const { return m_cost; }
 
-  float fwd(const rfa &in) const {
+  float fwd(const rfa<2> &in) const {
     float a = 0;
     for (auto i = 0; i < 2; i++) {
       a += m_w[i] * in[i] + m_b[i];
