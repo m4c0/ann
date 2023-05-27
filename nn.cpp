@@ -9,7 +9,6 @@ import testdata;
 
 template <unsigned N> class layer {
   neuron<2> m_ns[N]{};
-  float m_cost{};
 
 public:
   layer() = default;
@@ -19,27 +18,35 @@ public:
     }
   }
 
-  void update_cost(const test_suit &suit) {
-    float f = 0;
-    for (const auto &n : m_ns) {
-      for (const auto &d : suit.data) {
-        auto err = n.fwd(d.in) - d.out[0];
-        f += err * err;
-      }
-    }
-    m_cost = f / static_cast<float>(N * 4);
-  }
-  constexpr const auto cost() const { return m_cost; }
-
   float fwd(const rfa<2> &in) {
     // This only makes sense for layer<1>
     return m_ns[0].fwd(in);
   }
 };
+class network {
+  layer<1> m_out{};
+  float m_cost{};
+
+public:
+  network() = default;
+  network(const network (&p)[2]) { m_out = layer<1>{{p[0].m_out, p[1].m_out}}; }
+
+  float fwd(const rfa<2> &in) { return m_out.fwd(in); }
+
+  void update_cost(const test_suit &suit) {
+    float f = 0;
+    for (const auto &d : suit.data) {
+      auto err = m_out.fwd(d.in) - d.out[0];
+      f += err * err;
+    }
+    m_cost = f / static_cast<float>(4);
+  }
+  constexpr const auto cost() const { return m_cost; }
+};
 
 class population {
   static constexpr const auto pop_size = 10;
-  using ind_t = layer<1>;
+  using ind_t = network;
   ind_t m_ns[pop_size]{};
 
 public:
