@@ -6,9 +6,9 @@ export module neuron;
 import rfa;
 import testdata;
 
-export class neuron {
-  rfa<2> m_w{};
-  rfa<2> m_b{};
+export template <unsigned Ins> class neuron {
+  rfa<Ins> m_w{};
+  rfa<Ins> m_b{};
   float m_cost{};
 
   static float sigm(float a) {
@@ -23,30 +23,20 @@ export class neuron {
 public:
   neuron() = default;
   neuron(const neuron (&ps)[2]) {
-    m_w[0] = ps[rand() % 2].m_w[0] + mutation();
-    m_w[1] = ps[rand() % 2].m_w[1] + mutation();
-    m_b[0] = ps[rand() % 2].m_b[0] + mutation();
-    m_b[1] = ps[rand() % 2].m_b[1] + mutation();
+    for (auto i = 0; i < Ins; i++) {
+      m_w[i] = ps[rand() % 2].m_w[i] + mutation();
+      m_b[i] = ps[rand() % 2].m_b[i] + mutation();
+    }
   }
 
   constexpr float cost() const { return m_cost; }
 
-  float fwd(const rfa<2> &in) const {
+  float fwd(const rfa<Ins> &in) const {
     float a = 0;
-    for (auto i = 0; i < 2; i++) {
+    for (auto i = 0; i < Ins; i++) {
       a += m_w[i] * in[i] + m_b[i];
     }
     return sigm(a);
-  }
-
-  void update_cost(const test_suit &suit) {
-    float cost = 0;
-    for (const auto &set : suit.data) {
-      float f = fwd(set.in);
-      float err = f - set.out[0];
-      cost += err * err;
-    }
-    m_cost = cost / 4.0f;
   }
 
   void dump() {

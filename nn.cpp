@@ -8,7 +8,7 @@ import testdata;
 #include <time.h>
 
 template <unsigned N> class layer {
-  neuron m_ns[N]{};
+  neuron<2> m_ns[N]{};
   float m_cost{};
 
 public:
@@ -21,11 +21,13 @@ public:
 
   void update_cost(const test_suit &suit) {
     float f = 0;
-    for (auto &n : m_ns) {
-      n.update_cost(suit);
-      f += n.cost();
+    for (const auto &n : m_ns) {
+      for (const auto &d : suit.data) {
+        auto err = n.fwd(d.in) - d.out[0];
+        f += err * err;
+      }
     }
-    m_cost = f / static_cast<float>(N);
+    m_cost = f / static_cast<float>(N * 4);
   }
   constexpr const auto cost() const { return m_cost; }
 
