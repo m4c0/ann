@@ -18,30 +18,50 @@ public:
     }
   }
 
-  float fwd(const rfa<2> &in) {
-    // This only makes sense for layer<1>
-    return m_ns[0].fwd(in);
+  rfa<N> fwd(const rfa<2> &in) {
+    rfa<N> res{};
+    for (auto i = 0; i < N; i++) {
+      res[i] = m_ns[i].fwd(in);
+    }
+    return res;
+  }
+
+  void dump() const {
+    for (const auto &n : m_ns) {
+      n.dump();
+    }
   }
 };
 class network {
+  layer<2> m_int{};
   layer<1> m_out{};
   float m_cost{};
 
 public:
   network() = default;
-  network(const network (&p)[2]) { m_out = layer<1>{{p[0].m_out, p[1].m_out}}; }
+  network(const network (&p)[2]) {
+    m_int = layer<2>{{p[0].m_int, p[1].m_int}};
+    m_out = layer<1>{{p[0].m_out, p[1].m_out}};
+  }
 
-  float fwd(const rfa<2> &in) { return m_out.fwd(in); }
+  float fwd(const rfa<2> &in) { return m_out.fwd(m_int.fwd(in))[0]; }
 
   void update_cost(const test_suit &suit) {
     float f = 0;
     for (const auto &d : suit.data) {
-      auto err = m_out.fwd(d.in) - d.out[0];
+      auto err = fwd(d.in) - d.out[0];
       f += err * err;
     }
     m_cost = f / static_cast<float>(4);
   }
   constexpr const auto cost() const { return m_cost; }
+
+  void dump() const {
+    printf("int:\n");
+    m_int.dump();
+    printf("out:\n");
+    m_out.dump();
+  }
 };
 
 class population {
@@ -55,7 +75,7 @@ public:
           [](const void *a, const void *b) -> int {
             auto na = static_cast<const ind_t *>(a);
             auto nb = static_cast<const ind_t *>(b);
-            return na->cost() - nb->cost() > 0 ? 1 : -1;
+            return na->cost() > nb->cost() ? 1 : -1;
           });
 
     ind_t parents[2];
@@ -90,7 +110,7 @@ public:
       printf("%f %f\n", t.out[0], eval(t.in));
     }
     printf("f = %f\n", fitness(suit));
-    // m_ns[0].dump();
+    m_ns[0].dump();
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
   }
 };

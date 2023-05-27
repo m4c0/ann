@@ -39,11 +39,10 @@ public:
     return sigm(a);
   }
 
-  void dump() {
-    for (auto w : m_w)
-      printf("%f ", w);
-    for (auto b : m_b)
-      printf("%f ", b);
+  void dump() const {
+    for (auto i = 0; i < Ins; i++) {
+      printf("  w[%d]=%f b[%d]=%f", i, m_w[i], i, m_b[i]);
+    }
     printf("\n");
   }
 };
