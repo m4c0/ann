@@ -40,10 +40,23 @@ public:
     for (auto &f : m_data)
       f = random();
   }
+  rfa(const float (&n)[2]) {
+    for (auto i = 0; i < 2; i++) {
+      m_data[i] = n[i];
+    }
+  }
 };
 class neuron {
   rfa m_w{};
   rfa m_b{};
+
+public:
+  float fwd(const rfa &in) const { return 1.20; }
 };
 
-int main() { printf("ok\n"); }
+int main() {
+  neuron n;
+
+  rfa in{or_data.data[0].in};
+  printf("%f\n", n.fwd(in));
+}
