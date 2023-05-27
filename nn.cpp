@@ -60,14 +60,18 @@ class neuron {
     float ea = expf(a);
     return ea / (ea + 1.0f);
   }
+  static float mutation() {
+    constexpr const float eps = 1e-1;
+    return (random() - 0.5f) * eps;
+  }
 
 public:
   neuron() = default;
   neuron(const neuron (&ps)[2]) {
-    m_w[0] = ps[rand() % 2].m_w[0];
-    m_w[1] = ps[rand() % 2].m_w[1];
-    m_b[0] = ps[rand() % 2].m_b[0];
-    m_b[1] = ps[rand() % 2].m_b[1];
+    m_w[0] = ps[rand() % 2].m_w[0] + mutation();
+    m_w[1] = ps[rand() % 2].m_w[1] + mutation();
+    m_b[0] = ps[rand() % 2].m_b[0] + mutation();
+    m_b[1] = ps[rand() % 2].m_b[1] + mutation();
   }
 
   constexpr float cost() const { return m_cost; }
@@ -126,9 +130,6 @@ public:
 };
 
 int main() {
-  constexpr const float eps = 1e-1;
-  constexpr const float rate = 1e-1;
-
   srand(time(0));
 
   population p{};
