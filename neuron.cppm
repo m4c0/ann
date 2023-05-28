@@ -6,10 +6,8 @@ import testdata;
 
 extern "C" float expf(float);
 
-export float sigm(float a) {
-  float ea = expf(a);
-  return ea / (ea + 1.0f);
-}
+export float sigm(float a) { return 1.0f / (1.0f + expf(-a)); }
+
 export template <unsigned Ins> class neuron {
   rfa<Ins> m_w{};
   rfa<Ins> m_b{};
