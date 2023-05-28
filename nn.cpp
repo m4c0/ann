@@ -8,20 +8,27 @@ import testdata;
 
 class population {
   static constexpr const auto pop_size = 100;
-  using ind_t = network;
-  ind_t m_ns[pop_size]{};
+  static constexpr const auto parent_pool_size = pop_size / 10;
+  network m_ns[pop_size]{};
 
 public:
   void generation() {
-    qsort(m_ns, pop_size, sizeof(ind_t),
+    qsort(m_ns, pop_size, sizeof(network),
           [](const void *a, const void *b) -> int {
-            auto na = static_cast<const ind_t *>(a);
-            auto nb = static_cast<const ind_t *>(b);
+            auto na = static_cast<const network *>(a);
+            auto nb = static_cast<const network *>(b);
             return na->cost() > nb->cost() ? 1 : -1;
           });
 
+    network pp[parent_pool_size];
+    for (auto i = 0; i < parent_pool_size; i++) {
+      pp[i] = m_ns[i];
+    }
+
     for (auto &n : m_ns) {
-      n = ind_t{{m_ns[0], m_ns[1]}};
+      auto p1 = rng::rand(parent_pool_size);
+      auto p2 = rng::rand(parent_pool_size);
+      n = network{{pp[p1], pp[p2]}};
     }
   }
 
