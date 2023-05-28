@@ -1,12 +1,11 @@
-module;
-#include <stdio.h>
-
 export module neuron;
+import dbg;
 import rfa;
 import rng;
 import testdata;
 
-float expf(float);
+extern "C" float expf(float);
+
 export float sigm(float a) {
   float ea = expf(a);
   return ea / (ea + 1.0f);
@@ -42,8 +41,8 @@ public:
 
   void dump() const {
     for (auto i = 0; i < Ins; i++) {
-      printf("  w[%d]=%f b[%d]=%f", i, m_w[i], i, m_b[i]);
+      dbg::print("  w[%d]=%f b[%d]=%f", i, m_w[i], i, m_b[i]);
     }
-    printf("\n");
+    dbg::print("");
   }
 };

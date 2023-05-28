@@ -6,6 +6,7 @@ int main(int argc, char **argv) {
 
   auto nn = unit::create<tool>("nn");
   nn->add_wsdep("rng", rng());
+  nn->add_unit<mod>("dbg")->add_impl("dbgimpl");
   nn->add_unit<mod>("testdata");
   nn->add_unit<mod>("rfa");
   nn->add_unit<mod>("neuron");

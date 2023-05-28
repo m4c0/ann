@@ -1,7 +1,5 @@
-module;
-#include <stdio.h>
-
 export module network;
+import dbg;
 import layer;
 import rfa;
 import testdata;
@@ -31,9 +29,9 @@ public:
   constexpr const auto cost() const { return m_cost; }
 
   void dump() const {
-    printf("int:\n");
+    dbg::print("int:");
     m_int.dump();
-    printf("out:\n");
+    dbg::print("out:");
     m_out.dump();
   }
 };
