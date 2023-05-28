@@ -1,11 +1,5 @@
-module;
-#include <stdlib.h>
-
 export module rfa;
-
-export float randf() {
-  return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-}
+export import rng;
 
 export template <unsigned N> class rfa {
   float m_data[N];
@@ -13,7 +7,7 @@ export template <unsigned N> class rfa {
 public:
   rfa() {
     for (auto &f : m_data)
-      f = randf() * 10.0f - 5.0f;
+      f = rng::randf() * 10.0f - 5.0f;
   }
   rfa(const float (&n)[N]) {
     for (auto i = 0; i < 2; i++) {

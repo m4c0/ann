@@ -1,9 +1,11 @@
 #include "../ecow/ecow.hpp"
+#include "../rng/build.hpp"
 
 int main(int argc, char **argv) {
   using namespace ecow;
 
   auto nn = unit::create<tool>("nn");
+  nn->add_wsdep("rng", rng());
   nn->add_unit<mod>("testdata");
   nn->add_unit<mod>("rfa");
   nn->add_unit<mod>("neuron");
