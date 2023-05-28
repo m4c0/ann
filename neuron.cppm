@@ -23,10 +23,11 @@ export template <unsigned Ins> class neuron {
 
 public:
   neuron() = default;
-  neuron(const neuron (&ps)[2]) {
+  neuron(const neuron<Ins> &a, const neuron<Ins> &b) {
+    const neuron<Ins> *ps[2]{&a, &b};
     for (auto i = 0; i < Ins; i++) {
-      m_w[i] = ps[rng::rand(2)].m_w[i] + mutation();
-      m_b[i] = ps[rng::rand(2)].m_b[i] + mutation();
+      m_w[i] = ps[rng::rand(2)]->m_w[i] + mutation();
+      m_b[i] = ps[rng::rand(2)]->m_b[i] + mutation();
     }
   }
 

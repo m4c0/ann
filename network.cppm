@@ -11,9 +11,9 @@ export class network {
 
 public:
   network() = default;
-  network(const network (&p)[2]) {
-    m_int = layer<2>{{p[0].m_int, p[1].m_int}};
-    m_out = layer<1>{{p[0].m_out, p[1].m_out}};
+  network(const network &a, const network &b) {
+    m_int = layer<2>{a.m_int, b.m_int};
+    m_out = layer<1>{a.m_out, b.m_out};
   }
 
   float fwd(const rfa<2> &in) { return m_out.fwd(m_int.fwd(in))[0]; }

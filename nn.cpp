@@ -28,7 +28,7 @@ public:
     for (auto &n : m_ns) {
       auto p1 = rng::rand(parent_pool_size);
       auto p2 = rng::rand(parent_pool_size);
-      n = network{{pp[p1], pp[p2]}};
+      n = network{pp[p1], pp[p2]};
     }
   }
 

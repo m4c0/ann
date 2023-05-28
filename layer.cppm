@@ -7,9 +7,9 @@ export template <unsigned N> class layer {
 
 public:
   layer() = default;
-  layer(const layer<N> (&p)[2]) {
+  layer(const layer<N> &a, const layer<N> &b) {
     for (auto i = 0; i < N; i++) {
-      m_ns[i] = {{p[0].m_ns[i], p[1].m_ns[i]}};
+      m_ns[i] = {a.m_ns[i], b.m_ns[i]};
     }
   }
 
