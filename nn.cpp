@@ -7,7 +7,7 @@ import testdata;
 #include <time.h>
 
 class population {
-  static constexpr const auto pop_size = 10;
+  static constexpr const auto pop_size = 100;
   using ind_t = network;
   ind_t m_ns[pop_size]{};
 
@@ -20,12 +20,8 @@ public:
             return na->cost() > nb->cost() ? 1 : -1;
           });
 
-    ind_t parents[2];
-    for (auto i = 0; i < 2; i++) {
-      parents[i] = m_ns[i];
-    }
     for (auto &n : m_ns) {
-      n = ind_t{parents};
+      n = ind_t{{m_ns[0], m_ns[1]}};
     }
   }
 
