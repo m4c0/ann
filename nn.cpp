@@ -41,11 +41,14 @@ public:
   float eval(const rfa<2> &in) { return m_ns[0].fwd(in); }
 
   void survive(const test_suit &suit, unsigned max_gens) {
-    for (auto gen = 0; gen < max_gens; gen++) {
-      fitness(suit);
+    unsigned gen;
+    for (gen = 0; gen < max_gens; gen++) {
+      if (fitness(suit) < 1e-6)
+        break;
       generation();
     }
 
+    printf("after %d gens:\n", gen);
     for (const auto &t : suit.data) {
       for (auto i : t.in)
         printf("%f ", i);
@@ -58,12 +61,11 @@ public:
 };
 
 int main() {
-  static constexpr const auto max_gens = 1000;
+  static constexpr const auto max_gens = 1000000;
 
   srand(time(0));
 
-  population p{};
-  p.survive(or_data, max_gens);
-  p.survive(and_data, max_gens);
-  p.survive(xor_data, max_gens);
+  population{}.survive(or_data, max_gens);
+  population{}.survive(and_data, max_gens);
+  population{}.survive(xor_data, max_gens);
 }
