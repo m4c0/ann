@@ -16,7 +16,10 @@ export template <unsigned Ins> class neuron {
   float m_cost{};
 
   static float mutation() {
-    constexpr const float eps = 1e-1;
+    constexpr const float eps = 1e1;
+    constexpr const float chance = 1e-1;
+    if (rng::randf() > chance)
+      return 0.0f;
     return (rng::randf() - 0.5f) * eps;
   }
 
