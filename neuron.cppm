@@ -1,5 +1,4 @@
 module;
-#include <math.h>
 #include <stdio.h>
 
 export module neuron;
@@ -7,6 +6,7 @@ import rfa;
 import rng;
 import testdata;
 
+float expf(float);
 export float sigm(float a) {
   float ea = expf(a);
   return ea / (ea + 1.0f);
