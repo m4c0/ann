@@ -9,7 +9,7 @@ public:
   layer() = default;
   layer(const layer<N> (&p)[2]) {
     for (auto i = 0; i < N; i++) {
-      m_ns[i] = neuron{{p[0].m_ns[i], p[1].m_ns[i]}};
+      m_ns[i] = {{p[0].m_ns[i], p[1].m_ns[i]}};
     }
   }
 
