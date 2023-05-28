@@ -29,9 +29,9 @@ public:
   constexpr const auto cost() const { return m_cost; }
 
   void dump() const {
-    dbg::print("int:");
+    dbg::print("int:\n");
     m_int.dump();
-    dbg::print("out:");
+    dbg::print("out:\n");
     m_out.dump();
   }
 };

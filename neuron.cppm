@@ -43,6 +43,6 @@ public:
     for (auto i = 0; i < Ins; i++) {
       dbg::print("  w[%d]=%f b[%d]=%f", i, m_w[i], i, m_b[i]);
     }
-    dbg::print("");
+    dbg::print("\n");
   }
 };
