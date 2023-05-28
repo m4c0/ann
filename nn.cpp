@@ -57,11 +57,14 @@ public:
 };
 
 int main() {
-  static constexpr const auto max_gens = 1000000;
+  static constexpr const auto max_gens = 1000;
 
   srand(time(0));
 
   population{}.survive(or_data, max_gens);
   population{}.survive(and_data, max_gens);
-  population{}.survive(xor_data, max_gens);
+
+  population p{};
+  p.survive(xor_data, max_gens);
+  p.survive(xor_data, max_gens);
 }
