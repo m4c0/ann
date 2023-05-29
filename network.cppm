@@ -7,7 +7,7 @@ import testdata;
 export class network {
   layer<2> m_int{};
   layer<1> m_out{};
-  float m_cost{};
+  float m_cost{1e30f};
 
 public:
   network() = default;

@@ -4,7 +4,7 @@ import testdata;
 
 int main() {
   static constexpr const auto max_gens = 1000;
-  using alg = algo::best_pair;
+  using alg = algo::weightned;
 
   rng::seed();
 

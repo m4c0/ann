@@ -45,7 +45,8 @@ public:
   void survive(const test_suit &suit, unsigned max_gens) {
     unsigned gen;
     for (gen = 0; gen < max_gens; gen++) {
-      if (fitness(suit) < 1e-6)
+      fitness(suit);
+      if (best().cost() < 1e-6)
         break;
       generation();
     }
@@ -56,17 +57,21 @@ public:
         dbg::print("%f ", i);
       dbg::print("%f %f\n", t.out[0], eval(t.in));
     }
-    dbg::print("f = %f\n", fitness(suit));
+    dbg::print("best = %f\n", best().cost());
     dump();
     dbg::print("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
   }
 };
 
 export class weightned : public base<100> {
+  network m_best{};
+
   float fitness(const test_suit &suit) override {
     float sum_f = cost(suit);
     float new_sum = 0; // TODO: confirm this is "sum_f * 99"
     for (auto &n : m_ns) {
+      if (n.cost() < m_best.cost())
+        m_best = n;
       n.set_cost(sum_f - n.cost());
       new_sum += n.cost();
     }
@@ -75,7 +80,7 @@ export class weightned : public base<100> {
       acc += n.cost();
       n.set_cost(acc / new_sum);
     }
-    return sum_f;
+    return sum_f / pop_size;
   }
 
   void generation() override {
@@ -98,10 +103,7 @@ export class weightned : public base<100> {
     throw 0;
   }
 
-  const network &best() const override {
-    // TODO: pick best
-    return m_ns[0];
-  }
+  const network &best() const override { return m_best; }
 };
 
 export class best_pair : public base<100> {
