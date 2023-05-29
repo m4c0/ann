@@ -8,10 +8,10 @@ int main() {
 
   rng::seed();
 
-  alg{}.survive(or_data, max_gens);
-  alg{}.survive(and_data, max_gens);
+  (new alg())->survive(or_data, max_gens);
+  (new alg())->survive(and_data, max_gens);
 
-  alg p{};
-  p.survive(xor_data, max_gens);
-  p.survive(xor_data, max_gens);
+  alg *p = new alg{};
+  p->survive(xor_data, max_gens);
+  p->survive(xor_data, max_gens);
 }

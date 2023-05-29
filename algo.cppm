@@ -63,8 +63,9 @@ public:
   }
 };
 
-export class weightned : public base<100> {
+export class weightned : public base<10000> {
   network m_best{};
+  decltype(m_ns) next{};
 
   float fitness(const test_suit &suit) override {
     float sum_f = cost(suit);
@@ -84,7 +85,6 @@ export class weightned : public base<100> {
   }
 
   void generation() override {
-    decltype(m_ns) next{};
     for (auto i = 0; i < pop_size; i++) {
       const auto &p1 = pick();
       const auto &p2 = pick();
