@@ -54,8 +54,9 @@ public:
     dbg::print("after %d gens:\n", gen);
     for (const auto &t : suit.data) {
       for (auto i : t.in)
-        dbg::print("%f ", i);
-      dbg::print("%f %f\n", t.out[0], eval(t.in));
+        dbg::print("%.0f ", i);
+      float e = eval(t.in);
+      dbg::print("= %.0fv%.0f r6:%f\n", t.out[0], e, e);
     }
     dbg::print("best = %f\n", best().cost());
     dump();
