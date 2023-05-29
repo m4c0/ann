@@ -16,7 +16,7 @@ public:
     m_out = layer<1>{a.m_out, b.m_out};
   }
 
-  float fwd(const rfa<2> &in) { return m_out.fwd(m_int.fwd(in))[0]; }
+  float fwd(const rfa<2> &in) const { return m_out.fwd(m_int.fwd(in))[0]; }
 
   void update_cost(const test_suit &suit) {
     float f = 0;
@@ -27,6 +27,7 @@ public:
     m_cost = f / static_cast<float>(4);
   }
   constexpr const auto cost() const { return m_cost; }
+  constexpr void set_cost(float f) { m_cost = f; }
 
   void dump() const {
     dbg::print("int:\n");

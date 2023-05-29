@@ -13,7 +13,7 @@ public:
     }
   }
 
-  rfa<N> fwd(const rfa<2> &in) {
+  rfa<N> fwd(const rfa<2> &in) const {
     rfa<N> res{};
     for (auto i = 0; i < N; i++) {
       res[i] = m_ns[i].fwd(in);

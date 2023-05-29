@@ -4,13 +4,14 @@ import testdata;
 
 int main() {
   static constexpr const auto max_gens = 1000;
+  using alg = algo::best_pair;
 
   rng::seed();
 
-  algo::best_pair{}.survive(or_data, max_gens);
-  algo::best_pair{}.survive(and_data, max_gens);
+  alg{}.survive(or_data, max_gens);
+  alg{}.survive(and_data, max_gens);
 
-  algo::best_pair p{};
+  alg p{};
   p.survive(xor_data, max_gens);
   p.survive(xor_data, max_gens);
 }
