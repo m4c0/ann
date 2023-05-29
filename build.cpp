@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
   nn->add_unit<mod>("neuron");
   nn->add_unit<mod>("layer");
   nn->add_unit<mod>("network");
+  nn->add_unit<mod>("bestpair");
   nn->add_unit<>("nn");
   return run_main(nn, argc, argv);
 }
