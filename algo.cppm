@@ -1,13 +1,14 @@
 module;
 #include <stdlib.h>
 
-export module bestpair;
+export module algo;
 import dbg;
 import network;
 import rfa;
 import testdata;
 
-export class best_pair_algo {
+namespace algo {
+export class best_pair {
   static constexpr const auto pop_size = 100;
   static constexpr const auto parent_pool_size = pop_size / 10;
   network m_ns[pop_size]{};
@@ -63,3 +64,4 @@ public:
     dbg::print("-=-=-=-=-=-=-=-=-=-=-=-=-\n");
   }
 };
+} // namespace algo

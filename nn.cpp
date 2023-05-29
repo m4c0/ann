@@ -1,4 +1,4 @@
-import bestpair;
+import algo;
 import rng;
 import testdata;
 
@@ -7,10 +7,10 @@ int main() {
 
   rng::seed();
 
-  best_pair_algo{}.survive(or_data, max_gens);
-  best_pair_algo{}.survive(and_data, max_gens);
+  algo::best_pair{}.survive(or_data, max_gens);
+  algo::best_pair{}.survive(and_data, max_gens);
 
-  best_pair_algo p{};
+  algo::best_pair p{};
   p.survive(xor_data, max_gens);
   p.survive(xor_data, max_gens);
 }
