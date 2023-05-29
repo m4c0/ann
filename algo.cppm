@@ -72,8 +72,8 @@ export class weightned : public base<100> {
     }
     float acc = 0;
     for (auto &n : m_ns) {
-      acc += n.cost() / new_sum;
-      n.set_cost(acc);
+      acc += n.cost();
+      n.set_cost(acc / new_sum);
     }
     return sum_f;
   }
