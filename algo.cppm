@@ -79,22 +79,28 @@ export class weightned : public base<100> {
   }
 
   void generation() override {
-    const auto parents = m_ns;
+    decltype(m_ns) next{};
     for (auto i = 0; i < pop_size; i++) {
-      const auto &p1 = best();
-      const auto &p2 = best();
-      m_ns[i] = {p1, p2};
+      const auto &p1 = pick();
+      const auto &p2 = pick();
+      next[i] = {p1, p2};
     }
+    m_ns = next;
   }
 
-  const network &best() const override {
+  const network &pick() const {
     float r = rng::randf();
     for (const auto &n : m_ns) {
       if (n.cost() > r)
         return n;
     }
-    // unreachable
+    dbg::print("unreachable state: %f %f\n", r, m_ns[pop_size - 1].cost());
     throw 0;
+  }
+
+  const network &best() const override {
+    // TODO: pick best
+    return m_ns[0];
   }
 };
 
