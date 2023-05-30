@@ -16,7 +16,7 @@ int main() {
       scanf("%f,", &t.in[j]);
     }
     scanf("%f\n", &t.out[0]);
-    data.add(t);
+    data.push_back(t);
   }
 
   printf("Running AI\n");

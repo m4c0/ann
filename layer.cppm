@@ -1,6 +1,7 @@
 export module layer;
 import neuron;
 import rfa;
+import traits;
 
 export template <unsigned N> class layer {
   neuron<2> m_ns[N]{};
@@ -13,12 +14,10 @@ public:
     }
   }
 
-  rfa<N> fwd(const rfa<2> &in) const {
-    rfa<N> res{};
+  void fwd(const rfa<2> &in, rfa<N> &out) const {
     for (auto i = 0; i < N; i++) {
-      res[i] = m_ns[i].fwd(in);
+      out[i] = m_ns[i].fwd(in);
     }
-    return res;
   }
 
   void dump() const {

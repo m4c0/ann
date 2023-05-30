@@ -1,6 +1,7 @@
 #include "../ecow/ecow.hpp"
 #include "../hai/build.hpp"
 #include "../rng/build.hpp"
+#include "../traits/build.hpp"
 
 int main(int argc, char **argv) {
   using namespace ecow;
@@ -8,6 +9,7 @@ int main(int argc, char **argv) {
   auto nn = unit::create<tool>("nn");
   nn->add_wsdep("hai", hai());
   nn->add_wsdep("rng", rng());
+  nn->add_wsdep("traits", traits());
   nn->add_unit<mod>("dbg")->add_impl("dbgimpl");
   nn->add_unit<mod>("testdata");
   nn->add_unit<mod>("rfa");

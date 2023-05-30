@@ -16,7 +16,14 @@ public:
     m_out = layer<1>{a.m_out, b.m_out};
   }
 
-  float fwd(const rfa<2> &in) const { return m_out.fwd(m_int.fwd(in))[0]; }
+  float fwd(const rfa<2> &in) const {
+    rfa<2> int_out{};
+    m_int.fwd(in, int_out);
+
+    rfa<1> out_out{};
+    m_out.fwd(int_out, out_out);
+    return out_out[0];
+  }
 
   void update_cost(const test_suit &suit) {
     float f = 0;
