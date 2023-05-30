@@ -11,7 +11,6 @@ export float sigm(float a) { return 1.0f / (1.0f + expf(-a)); }
 export template <unsigned Ins> class neuron {
   rfa<Ins> m_w{};
   rfa<Ins> m_b{};
-  float m_cost{};
 
   static float mutation() {
     constexpr const float eps = 1e1;
@@ -30,8 +29,6 @@ public:
       m_b[i] = ps[rng::rand(2)]->m_b[i] + mutation();
     }
   }
-
-  constexpr float cost() const { return m_cost; }
 
   float fwd(const rfa<Ins> &in) const {
     float a = 0;
