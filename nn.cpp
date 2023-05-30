@@ -11,9 +11,9 @@ int main() {
 
   for (unsigned i = 0; i < 4; i++) {
     for (unsigned j = 0; j < 2; j++) {
-      scanf("%f,", &data.data[i].in[j]);
+      scanf("%f,", &data[i].in[j]);
     }
-    scanf("%f\n", &data.data[i].out[0]);
+    scanf("%f\n", &data[i].out[0]);
   }
 
   rng::seed();

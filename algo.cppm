@@ -52,7 +52,7 @@ public:
     }
 
     dbg::print("after %d gens:\n", gen);
-    for (const auto &t : suit.data) {
+    for (const auto &t : suit) {
       for (auto i : t.in)
         dbg::print("%.0f ", i);
       float e = eval(t.in);

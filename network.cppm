@@ -20,7 +20,7 @@ public:
 
   void update_cost(const test_suit &suit) {
     float f = 0;
-    for (const auto &d : suit.data) {
+    for (const auto &d : suit) {
       auto err = fwd(d.in) - d.out[0];
       f += err * err;
     }
