@@ -25,7 +25,7 @@ protected:
   static constexpr const auto pop_size = PopSize;
   pop<pop_size> m_ns{};
 
-  float eval(const rfa<2> &in) const { return best().fwd(in); }
+  float eval(const rfa &in) const { return best().fwd(in); }
   void dump() const { best().dump(); }
 
   float cost(const test_suit &suit) {

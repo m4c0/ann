@@ -3,7 +3,7 @@ import hai;
 import rfa;
 
 export struct test {
-  rfa<2> in;
-  rfa<1> out;
+  rfa in{2};
+  rfa out{1};
 };
 export using test_suit = hai::varray<test>;

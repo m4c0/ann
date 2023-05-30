@@ -14,7 +14,7 @@ public:
     }
   }
 
-  void fwd(const rfa<2> &in, rfa<N> &out) const {
+  void fwd(const rfa &in, rfa &out) const {
     for (auto i = 0; i < N; i++) {
       out[i] = m_ns[i].fwd(in);
     }

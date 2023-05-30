@@ -9,8 +9,8 @@ extern "C" float expf(float);
 export float sigm(float a) { return 1.0f / (1.0f + expf(-a)); }
 
 export template <unsigned Ins> class neuron {
-  rfa<Ins> m_w{};
-  rfa<Ins> m_b{};
+  rfa m_w{Ins};
+  rfa m_b{Ins};
 
   static float mutation() {
     constexpr const float eps = 1e1;
@@ -30,7 +30,7 @@ public:
     }
   }
 
-  float fwd(const rfa<Ins> &in) const {
+  float fwd(const rfa &in) const {
     float a = 0;
     for (auto i = 0; i < Ins; i++) {
       a += m_w[i] * in[i] + m_b[i];

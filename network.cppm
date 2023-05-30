@@ -16,11 +16,11 @@ public:
     m_out = layer<1>{a.m_out, b.m_out};
   }
 
-  float fwd(const rfa<2> &in) const {
-    rfa<2> int_out{};
+  float fwd(const rfa &in) const {
+    rfa int_out{2};
     m_int.fwd(in, int_out);
 
-    rfa<1> out_out{};
+    rfa out_out{1};
     m_out.fwd(int_out, out_out);
     return out_out[0];
   }
