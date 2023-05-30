@@ -1,8 +1,9 @@
 export module testdata;
 import hai;
+import rfa;
 
 export struct test {
-  float in[2];
-  float out[1];
+  rfa<2> in;
+  rfa<1> out;
 };
 export using test_suit = hai::varray<test>;
