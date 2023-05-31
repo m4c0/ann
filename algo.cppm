@@ -10,22 +10,10 @@ import testdata;
 import traits;
 
 namespace algo {
-template <unsigned Size> class pop {
-  hai::array<network> m_ns{Size};
-
-public:
-  auto &operator[](unsigned idx) { return m_ns[idx]; }
-  const auto &operator[](unsigned idx) const { return m_ns[idx]; }
-  auto *begin() { return &m_ns[0]; }
-  const auto *begin() const { return &m_ns[0]; }
-  auto *end() { return &m_ns[Size]; }
-  const auto *end() const { return &m_ns[Size]; }
-};
-
 template <unsigned PopSize> class base {
 protected:
   static constexpr const auto pop_size = PopSize;
-  pop<pop_size> m_ns{};
+  hai::array<network> m_ns{pop_size};
 
   float eval(const rfa &in) const { return best().fwd(in); }
   void dump() const { best().dump(); }
@@ -68,7 +56,7 @@ public:
 
 export class weightned : public base<10000> {
   network m_best{};
-  decltype(m_ns) next{};
+  decltype(m_ns) next{pop_size};
 
   float fitness(const test_suit &suit) override {
     float sum_f = cost(suit);
