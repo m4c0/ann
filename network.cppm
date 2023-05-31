@@ -35,7 +35,6 @@ public:
     m_cost = f / static_cast<float>(4);
   }
   constexpr const auto cost() const { return m_cost; }
-  constexpr void set_cost(float f) { m_cost = f; }
 
   void dump() const {
     dbg::print("int:\n");

@@ -57,20 +57,22 @@ public:
 export class weightned : public base<10000> {
   network m_best{};
   decltype(m_ns) next{pop_size};
+  float m_costs[pop_size]{};
 
   float fitness(const test_suit &suit) override {
     float sum_f = cost(suit);
     float new_sum = 0; // TODO: confirm this is "sum_f * 99"
-    for (auto &n : m_ns) {
+    for (auto i = 0; i < pop_size; i++) {
+      auto &n = m_ns[i];
       if (n.cost() < m_best.cost())
         m_best = n;
-      n.set_cost(sum_f - n.cost());
-      new_sum += n.cost();
+      m_costs[i] = sum_f - n.cost();
+      new_sum += m_costs[i];
     }
     float acc = 0;
-    for (auto &n : m_ns) {
-      acc += n.cost();
-      n.set_cost(acc / new_sum);
+    for (auto &c : m_costs) {
+      acc += c;
+      c = acc / new_sum;
     }
     return sum_f / pop_size;
   }
@@ -87,11 +89,11 @@ export class weightned : public base<10000> {
 
   const network &pick() const {
     float r = rng::randf();
-    for (const auto &n : m_ns) {
-      if (n.cost() > r)
-        return n;
+    for (auto i = 0; i < pop_size; i++) {
+      if (m_costs[i] > r)
+        return m_ns[i];
     }
-    dbg::print("unreachable state: %f %f\n", r, m_ns[pop_size - 1].cost());
+    dbg::print("unreachable state: %f %f\n", r, m_costs[pop_size - 1]);
     throw 0;
   }
 
