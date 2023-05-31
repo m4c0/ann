@@ -77,9 +77,7 @@ export class weightned : public base<10000> {
 
   void generation() override {
     for (auto i = 0; i < pop_size; i++) {
-      const auto &p1 = pick();
-      const auto &p2 = pick();
-      next[i] = {p1, p2};
+      next[i].inherit(pick(), pick());
     }
 
     auto tmp = traits::move(next);
@@ -119,7 +117,7 @@ export class best_pair : public base<100> {
     for (auto &n : m_ns) {
       auto p1 = rng::rand(parent_pool_size);
       auto p2 = rng::rand(parent_pool_size);
-      n = network{pp[p1], pp[p2]};
+      n.inherit(pp[p1], pp[p2]);
     }
   }
 

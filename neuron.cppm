@@ -21,8 +21,7 @@ export template <unsigned Ins> class neuron {
   }
 
 public:
-  neuron() = default;
-  neuron(const neuron<Ins> &a, const neuron<Ins> &b) {
+  void inherit(const neuron<Ins> &a, const neuron<Ins> &b) {
     const neuron<Ins> *ps[2]{&a, &b};
     for (auto i = 0; i < Ins; i++) {
       m_w[i] = ps[rng::rand(2)]->m_w[i] + mutation();

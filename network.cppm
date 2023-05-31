@@ -11,9 +11,10 @@ export class network {
 
 public:
   network() = default;
-  network(const network &a, const network &b) {
-    m_int = layer<2>{a.m_int, b.m_int};
-    m_out = layer<1>{a.m_out, b.m_out};
+
+  void inherit(const network &a, const network &b) {
+    m_int.inherit(a.m_int, b.m_int);
+    m_out.inherit(a.m_out, b.m_out);
   }
 
   float fwd(const rfa &in) const {
