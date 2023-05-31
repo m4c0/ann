@@ -3,13 +3,15 @@ module;
 
 export module algo;
 import dbg;
+import hai;
 import network;
 import rfa;
 import testdata;
+import traits;
 
 namespace algo {
 template <unsigned Size> class pop {
-  network m_ns[Size]{};
+  hai::array<network> m_ns{Size};
 
 public:
   auto &operator[](unsigned idx) { return m_ns[idx]; }
@@ -91,7 +93,10 @@ export class weightned : public base<10000> {
       const auto &p2 = pick();
       next[i] = {p1, p2};
     }
-    m_ns = next;
+
+    auto tmp = traits::move(next);
+    next = traits::move(m_ns);
+    m_ns = traits::move(tmp);
   }
 
   const network &pick() const {
