@@ -27,7 +27,7 @@ public:
     m_b = ps[rng::rand(2)]->m_b + mutation();
   }
 
-  float fwd(float in) const { return m_w * in + m_b; }
+  constexpr float fwd(float in) const { return m_w * in + m_b; }
 
   void dump() const { dbg::print("  w=%f b=%f", m_w, m_b); }
 };
@@ -42,7 +42,7 @@ public:
     }
   }
 
-  float fwd(const rfa &in) const {
+  constexpr float fwd(const rfa &in) const {
     float a = 0;
     for (auto i = 0; i < Ins; i++) {
       a += m_s[i].fwd(in[i]);
